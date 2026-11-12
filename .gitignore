@@ -1,0 +1,22 @@
+node_modules/
+.DS_Store
+*.log
+scraft_tmp*
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+*.mobileprovision
+*.app/
+native-app/S Craft
+work/
+/RELEASE_REVIEW.md
+/public/licenses/qpdf-wasm/
+
+/public/assets/ffmpeg/
+/public/licenses/ffmpeg-core/source-bundle.zip

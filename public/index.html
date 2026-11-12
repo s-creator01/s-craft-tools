@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>S-Craft Tools — PDF, Image, Audio &amp; Video Tools</title>
+  <link rel="icon" type="image/png" href="./favicon.png"/>
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png"/>
+  <link rel="stylesheet" href="./css/style.css"/>
+  <meta name="description" content="Simple everyday file tools. 100% offline & local privacy."/>
+</head>
+<body>
+  <div class="shell">
+    <div class="app">
+      <!-- App Header -->
+      <header class="header">
+        <div class="brand">
+          <img src="./img/scraft-icon.png" alt="S-Craft Tools" style="width: 28px; height: 28px; object-fit: contain; vertical-align: middle; margin-right: 6px;">
+          <span>S-Craft Tools</span>
+        </div>
+
+        <div class="header-right">
+          <button class="icon-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme" aria-label="Toggle theme">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+
+          <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Open settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </button>
+
+          <div class="language-picker" id="languagePicker">
+            <button class="language-trigger" id="languageBtn" type="button" aria-expanded="false" aria-controls="languageMenu" aria-label="Language: English">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 4 6 4 9s-1 6-4 9c-3-3-4-6-4-9s1-6 4-9z"/></svg><span>English</span>
+            </button>
+            <div class="language-menu" id="languageMenu" hidden aria-label="Language options">
+              <div class="language-heading">Language</div>
+              <div class="language-selected" aria-label="English, current language"><span>English</span><span aria-hidden="true">✓</span></div>
+              <button class="language-help" id="translationHelpBtn" type="button">Help to translate <span aria-hidden="true">→</span></button>
+            </div>
+          </div>
+          <button class="support-trigger" id="supportBtn" type="button" aria-haspopup="dialog" aria-controls="supportModal"><span aria-hidden="true">♡</span> Support</button>
+        </div>
+      </header>
+
+      <!-- Main Body -->
+      <section class="body">
+        <!-- Sidebar Navigation -->
+        <nav class="side" id="sideNav">
+          <div class="eyebrow">CATEGORIES</div>
+        </nav>
+
+        <!-- Content Area -->
+        <main class="content">
+          <!-- Screen 1: Browse Category Tools -->
+          <section id="browseScreen" class="screen show">
+            <div class="titlebar">
+              <div class="tt">
+                <div class="bigico" id="categoryIcon"></div>
+                <div>
+                  <h1 class="title" id="categoryTitle">Image Tools</h1>
+                  <p class="subtitle" id="categoryDesc">Resize, crop, compress and sign photos</p>
+                </div>
+              </div>
+
+              <div class="search-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input class="search" id="searchInput" aria-label="Search tools" placeholder="Search tools..." autocomplete="off"/>
+              </div>
+            </div>
+
+            <!-- Grid of Cards -->
+            <div class="grid" id="toolsGrid"></div>
+          </section>
+
+          <!-- Screen 2: Tool Detail View -->
+          <section id="toolDetailScreen" class="screen">
+            <button class="crumb" id="backBtn">&larr; Back to Tools</button>
+            <div id="toolDetailContainer"></div>
+          </section>
+        </main>
+      </section>
+
+      <!-- Quick Access stores tool IDs only; existing activity data remains untouched. -->
+      <footer class="footer">
+        <div class="quick-access-label"><span class="recent-icon">◷</span><div><div class="recent-title">Quick Access</div><div class="recent-desc">Private · Stored on your device</div></div></div>
+        <div id="quickAccessTools" class="quick-access-tools"></div>
+        <button class="btn-secondary quick-manage" id="manageQuickAccessBtn">▦ Manage</button>
+      </footer>
+
+      <!-- Collapsible Recent Activity Drawer -->
+      <div class="recent-drawer" id="recentDrawer">
+        <ul class="recent-list" id="recentList"></ul>
+      </div>
+
+      <div class="modal-overlay" id="quickAccessModal" aria-hidden="true">
+        <section class="modal-card quick-access-modal" role="dialog" aria-modal="true" aria-labelledby="quickAccessTitle">
+          <div class="modal-header"><h2 class="modal-title" id="quickAccessTitle">Manage Quick Access</h2><button class="icon-btn" id="closeQuickAccessBtn" aria-label="Close">&times;</button></div>
+          <div class="modal-body"><p>Pin up to three tools here. Recent tools fill any remaining spaces.</p><div id="quickAccessManageList" class="quick-access-manage-list"></div></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+      <div class="modal-overlay" id="translationHelpModal" aria-hidden="true">
+        <section class="modal-card translation-help-modal" role="dialog" aria-modal="true" aria-labelledby="translationHelpTitle" aria-describedby="translationHelpIntro">
+          <div class="modal-header"><h2 class="modal-title" id="translationHelpTitle">Help translate S-Craft Tools</h2><button class="icon-btn" id="closeTranslationHelpBtn" type="button" aria-label="Close translation help">&times;</button></div>
+          <div class="modal-body translation-help-body">
+            <p id="translationHelpIntro">Thank you for helping make S-Craft Tools easier to use in more languages.</p>
+            <p class="translation-status"><strong>Not open yet:</strong> English is currently the only language. The public repository and translation files are still being prepared.</p>
+            <h3>How contributing will work</h3>
+            <ol><li>Once the repository is public, choose a language you know well and check whether a translation is already in progress.</li><li>Follow the translation guide in the repository to suggest a new translation or improve an existing one. You can also report an unclear phrase.</li><li>A reviewer will check the suggestions before they appear in the app.</li></ol>
+            <p>Translate the meaning clearly, keep placeholders and formatting unchanged, and never include personal files or sensitive information in a contribution.</p>
+            <p>We will add the repository link and detailed instructions here when contributions are ready.</p>
+          </div>
+        </section>
+      </div>
+
+      <div class="modal-overlay" id="supportModal" aria-hidden="true">
+        <section class="modal-card support-modal" role="dialog" aria-modal="true" aria-labelledby="supportTitle" aria-describedby="supportDescription">
+          <button class="icon-btn support-close" id="closeSupportBtn" type="button" aria-label="Close support">&times;</button>
+          <div class="support-heart" aria-hidden="true">♡</div>
+          <h2 id="supportTitle">Support S-Craft Tools</h2>
+          <p id="supportDescription">Help keep S-Craft Tools growing.</p>
+          <a class="support-coffee" href="https://buymeacoffee.com/screator01" target="_blank" rel="noopener noreferrer">Buy Me a Coffee <span aria-hidden="true">↗</span></a>
+          <p class="support-qr-label">Or scan to support</p>
+          <img class="support-qr" src="./img/buy-me-a-coffee-qr.png" alt="Buy Me a Coffee support QR code"/>
+        </section>
+      </div>
+
+      <div class="modal-overlay" id="settingsModal" aria-hidden="true">
+        <section class="modal-card settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+          <aside class="settings-sidebar">
+            <div class="settings-brand">
+              <img src="./img/scraft-icon.png" alt="S-Craft Tools" style="width: 26px; height: 26px; object-fit: contain; vertical-align: middle; margin-right: 6px;">
+              <strong>S-Craft Tools</strong>
+            </div>
+            <nav class="settings-nav" aria-label="Settings sections">
+              <button type="button" class="settings-nav-btn active" data-settings-section="appearance" aria-current="page"><span aria-hidden="true">◐</span>Appearance</button>
+              <button type="button" class="settings-nav-btn" data-settings-section="tool-preferences"><span aria-hidden="true">☷</span>Tool preferences</button>
+              <button type="button" class="settings-nav-btn" data-settings-section="shortcuts"><span aria-hidden="true">⌨</span>Shortcuts</button>
+            </nav>
+          </aside>
+          <div class="settings-main">
+            <div class="settings-main-header">
+              <div><h2 class="modal-title" id="settingsTitle">Settings</h2><p class="settings-subtitle">Set up S-Craft Tools the way you work</p></div>
+              <button class="icon-btn" id="closeSettingsBtn" aria-label="Close settings">&times;</button>
+            </div>
+            <div class="settings-panel" id="settingsPanel"></div>
+            <div class="settings-footer"><span>Changes are saved on this device.</span><div><button type="button" class="settings-cancel-btn" id="cancelSettingsBtn">Cancel</button><button type="button" class="settings-apply-btn" id="settingsApplyBtn">Apply</button></div></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Save / Download Modal with Rename and Choose Location -->
+      <div class="modal-overlay" id="saveFileModal" aria-hidden="true">
+        <section class="modal-card save-file-modal" role="dialog" aria-modal="true" aria-labelledby="saveModalTitle" style="max-width: 520px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.25);">
+          <div class="modal-header" style="padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent);">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              <h2 class="modal-title" id="saveModalTitle" style="font-size: 16px; font-weight: 600; margin: 0;">Save File</h2>
+            </div>
+            <button class="icon-btn" id="closeSaveModalBtn" aria-label="Close save dialog" style="font-size: 20px; cursor: pointer;">&times;</button>
+          </div>
+          <div class="modal-body" style="padding: 20px 24px;">
+            <div class="save-field" style="margin-bottom: 16px;">
+              <label for="saveFileNameInput" style="display:block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; color: var(--muted);">File Name</label>
+              <input type="text" id="saveFileNameInput" class="opt-input" style="width: 100%; box-sizing: border-box; padding: 10px 14px; font-size: 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font-weight: 500;" placeholder="Enter filename...">
+            </div>
+
+            <div class="save-field" style="margin-bottom: 16px;">
+              <label style="display:block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; color: var(--muted);">Save Location</label>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div id="saveLocationDisplay" style="flex: 1; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; font-size: 13px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="~/Downloads">
+                  ~/Downloads
+                </div>
+                <button type="button" class="btn-secondary" id="btnChangeSaveLocation" style="white-space: nowrap; padding: 9px 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                  📁 Change Folder
+                </button>
+              </div>
+            </div>
+
+            <div id="saveFileDetails" style="background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; font-size: 12px; color: var(--muted);">
+              <span id="saveFileSizeMeta">Size: calculating...</span>
+              <span id="saveFileTypeMeta" style="color: var(--accent); font-weight: 600;">Format: Ready</span>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+              <button type="button" class="btn-secondary" id="btnCancelSaveModal" style="padding: 9px 16px; font-size: 13px; cursor: pointer;">Cancel</button>
+              <button type="button" class="btn-primary" id="btnConfirmSaveFile" style="padding: 9px 20px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+                Save File
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+  <!-- Local Bundled Vendor Scripts (100% Offline, Zero CDN) -->
+  <script src="./vendor/pdf-lib.min.js"></script>
+  <script src="./vendor/jszip.min.js"></script>
+  <script src="./vendor/browser-image-compression.js"></script>
+  <script src="./vendor/pdf.min.js"></script>
+  <script src="./vendor/qpdf.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = './vendor/pdf.worker.min.js';
+    }
+  </script>
+
+  <!-- Application Bootstrap -->
+  <script type="module">
+    import { initApp } from './js/app.js';
+    initApp();
+  </script>
+</body>
+</html>

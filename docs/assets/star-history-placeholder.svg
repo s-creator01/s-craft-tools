@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="250" viewBox="0 0 760 250" role="img" aria-labelledby="title desc">
+  <title id="title">Star history placeholder</title><desc id="desc">Chart placeholder with stars on the vertical axis and date on the horizontal axis. Public data will appear after launch.</desc>
+  <rect x="0.5" y="0.5" width="759" height="249" rx="14" fill="#ffffff" stroke="#d8dee4"/>
+  <text x="30" y="38" fill="#24292f" font-family="Arial,sans-serif" font-size="18" font-weight="700">S-Craft Tools · Star history</text>
+  <path d="M87 63V195H708 M87 151H708 M87 107H708" fill="none" stroke="#d8dee4" stroke-width="1"/>
+  <text x="24" y="132" fill="#57606a" font-family="Arial,sans-serif" font-size="13" transform="rotate(-90 24 132)">Stars</text>
+  <text x="380" y="224" text-anchor="middle" fill="#57606a" font-family="Arial,sans-serif" font-size="13">Date</text>
+  <text x="400" y="123" text-anchor="middle" fill="#57606a" font-family="Arial,sans-serif" font-size="15">Public star history will appear after launch</text>
+  <text x="400" y="145" text-anchor="middle" fill="#8c959f" font-family="Arial,sans-serif" font-size="12">Placeholder · no data shown</text>
+</svg>

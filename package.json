@@ -1,0 +1,34 @@
+{
+  "name": "s-craft",
+  "version": "1.0.0",
+  "description": "S-Craft Tools — Simple everyday file tools. 100% local and private.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "npm run test:unit && node test/browser-verify.js",
+    "test:unit": "node test/test-local-api-security.js && node test/run-all-tests.js",
+    "test:browser": "node test/browser-verify.js",
+    "build:media": "node scripts/build-media.mjs"
+  },
+  "keywords": [
+    "pdf",
+    "image",
+    "video",
+    "audio",
+    "text",
+    "time",
+    "number",
+    "offline",
+    "privacy-first"
+  ],
+  "author": "S-Craft Tools Contributors",
+  "license": "AGPL-3.0-only",
+  "dependencies": {
+    "@ffmpeg/ffmpeg": "0.12.15"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

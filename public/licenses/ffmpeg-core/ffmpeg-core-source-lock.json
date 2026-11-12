@@ -1,0 +1,90 @@
+{
+  "description": "Pinned sources for the S-Craft Tools single-thread browser FFmpeg core.",
+  "emscripten": {
+    "version": "3.1.40",
+    "source_commit": "5c27e79dd0a9c4e27ef2326841698cdd4f6b5784",
+    "repository": "https://github.com/emscripten-core/emscripten"
+  },
+  "ffmpeg_wasm_build": {
+    "repository": "https://github.com/ffmpegwasm/ffmpeg.wasm",
+    "commit": "71aa99d37c02a7b4c435275ca9ef50e612f6efa1"
+  },
+  "sources": [
+    {
+      "name": "ffmpeg",
+      "repository": "https://github.com/FFmpeg/FFmpeg",
+      "commit": "4729204c17f756e186d622060088371d10b34f7e",
+      "version": "n5.1.4",
+      "license": "GPL-2.0-or-later for this configuration"
+    },
+    {
+      "name": "x264",
+      "repository": "https://github.com/ffmpegwasm/x264",
+      "commit": "33cac6b77d5b9259c552156013a817ab23119612",
+      "license": "GPL-2.0-or-later"
+    },
+    {
+      "name": "libvpx",
+      "repository": "https://github.com/ffmpegwasm/libvpx",
+      "commit": "10b9492dcf05b652e2e4b370e205bd605d421972",
+      "version": "v1.13.1",
+      "license": "BSD-3-Clause plus PATENTS"
+    },
+    {
+      "name": "lame",
+      "repository": "https://github.com/ffmpegwasm/lame",
+      "commit": "2badea1974ae36cb8312afe99cff1e6b3b5decee",
+      "version": "3.100",
+      "license": "LGPL-2.0-or-later"
+    },
+    {
+      "name": "ogg",
+      "repository": "https://github.com/ffmpegwasm/Ogg",
+      "commit": "bada45718453ac27b56773ae663f7e65112f6a6e",
+      "version": "v1.3.4",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "name": "opus",
+      "repository": "https://github.com/ffmpegwasm/opus",
+      "commit": "e85ed7726db5d677c9c0677298ea0cb9c65bdd23",
+      "version": "v1.3.1",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "name": "vorbis",
+      "repository": "https://github.com/ffmpegwasm/vorbis",
+      "commit": "7798164043197d7e33f02de4353ce2aa5b248225",
+      "version": "v1.3.3",
+      "license": "BSD-3-Clause"
+    }
+  ],
+  "configure": [
+    "--enable-gpl",
+    "--enable-libx264",
+    "--enable-libvpx",
+    "--enable-libmp3lame",
+    "--enable-libvorbis",
+    "--enable-libopus"
+  ],
+  "sdl2_port": {
+    "version": "release-2.24.2",
+    "url": "https://github.com/libsdl-org/SDL/archive/release-2.24.2.zip",
+    "sha512": "b178bdc8f7c40271e09a72f639649d1d61953dda4dc12b77437259667b63b961fd3b2c67b0de6fdc5f9f9c80c49bfafd164e4c13715bc1056e550acc8bad5a3c",
+    "license": "zlib"
+  },
+  "outputs": {
+    "ffmpeg-core.js": "ba0287cf90c2eec66a08a866858b47322f834d19a048ef79080f968cdfcb7a37",
+    "ffmpeg-core.wasm": "4001b7a8bd1185a5296cd44e66d17eb15fb95594edbdb05513dfe41e555ad2d6"
+  },
+  "tested_build_environment": {
+    "platform": "macOS arm64",
+    "autoconf": "2.71",
+    "automake": "1.16.5",
+    "libtool": "2.4.7",
+    "pkgconf": "2.4.3",
+    "cmake": "4.4.4",
+    "node": "24.21.0",
+    "notes": "Exact source commits and Emscripten are pinned. Other tools are recorded from the local build; binary hashes can vary across environments."
+  }
+}
