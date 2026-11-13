@@ -27,8 +27,8 @@ async function readMediaResponse(response) {
   return result;
 }
 
-async function callLocalMediaApi(operation, file, options = {}) {
-  if (!await isLocalApp()) return processBrowserMedia(operation, [file], options);
+async function callLocalMediaApi(operation, file, options = {}, onProgress) {
+  if (!await isLocalApp()) return processBrowserMedia(operation, [file], options, onProgress);
   const inputBase64 = await fileToBase64(file);
   const payload = {
     operation,
@@ -66,8 +66,8 @@ export async function trimVideo(file, startSec, endSec) {
   return callLocalMediaApi('trim-video', file, { start: startSec, end: endSec });
 }
 
-export async function compressVideo(file, quality = 'medium') {
-  return callLocalMediaApi('compress-video', file, { quality });
+export async function compressVideo(file, quality = 'medium', resolution = '720', onProgress) {
+  return callLocalMediaApi('compress-video', file, { quality, resolution }, onProgress);
 }
 
 export async function cropVideo(file, aspect = '1:1') {

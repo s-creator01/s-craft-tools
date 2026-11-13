@@ -18,7 +18,10 @@ function command(operation, options, input) {
   const trim = ['-ss', String(options.start), ...source, '-t', String(options.end - options.start)];
   switch (operation) {
     case 'trim-video': return ['mp4', [...trim, ...video, '-c:a', 'aac']];
-    case 'compress-video': return ['mp4', [...source, '-c:v', 'libx264', '-preset', 'veryfast', '-pix_fmt', 'yuv420p', '-crf', ({ low: '32', medium: '28', high: '23' })[options.quality] ?? '28', '-c:a', 'aac']];
+    case 'compress-video': {
+      const resize = options.resolution === '720' ? ['-vf', 'scale=trunc(iw*min(1\\,720/min(iw\\,ih))/2)*2:trunc(ih*min(1\\,720/min(iw\\,ih))/2)*2'] : [];
+      return ['mp4', [...source, ...resize, '-c:v', 'libx264', '-preset', 'superfast', '-pix_fmt', 'yuv420p', '-crf', ({ low: '38', medium: '33', high: '28' })[options.quality] ?? '33', '-c:a', 'aac']];
+    }
     case 'crop-video': {
       const ratio = ({ '1:1': '1', '16:9': '16/9', '4:3': '4/3', '9:16': '9/16' })[options.aspect] ?? '1';
       return ['mp4', movie(`crop=trunc(min(iw,ih*(${ratio}))/2)*2:trunc(min(ih,iw/(${ratio}))/2)*2`.replaceAll(',', '\\,'))];
@@ -58,7 +61,7 @@ async function execute(engine, args) {
 }
 
 let busy = false;
-export async function processBrowserMedia(operation, files, options = {}) {
+export async function processBrowserMedia(operation, files, options = {}, onProgress) {
   if (!files.length || files.some((file) => !file.size)) throw new Error('Select a non-empty media file.');
   if (files.reduce((total, file) => total + file.size, 0) > maxBytes) {
     throw new Error('Browser exports accept up to 100 MiB total input. Use the local app for larger files.');
@@ -69,6 +72,9 @@ export async function processBrowserMedia(operation, files, options = {}) {
   try {
     const { FFmpeg } = await import(new URL('index.js', assets));
     engine = new FFmpeg();
+    if (operation === 'compress-video' && typeof onProgress === 'function') {
+      engine.on('progress', ({ progress }) => { if (Number.isFinite(progress)) onProgress(Math.max(0, Math.min(1, progress))); });
+    }
     await engine.load({ coreURL: new URL('ffmpeg-core.js', assets).href, wasmURL: new URL('ffmpeg-core.wasm', assets).href });
     const inputs = [];
     for (const [index, file] of files.entries()) {

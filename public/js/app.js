@@ -3830,12 +3830,17 @@ function renderVideoGenericTool(zone, toolId) {
                 <input type="number" id="vEnd" class="opt-input" value="10" min="1" step="0.1" style="width:70px;padding:4px 6px;font-size:13px;">
               </div>
             ` : toolId === 'vid-compress' ? `
-              <div style="display:flex;align-items:center;gap:6px;">
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                 <label class="opt-label" style="margin:0;font-size:12px;" for="vQual">Preset:</label>
                 <select id="vQual" class="opt-select" style="padding:4px 8px;font-size:13px;">
-                  <option value="low">Small File (CRF 32)</option>
-                  <option value="medium" selected>Balanced (CRF 28)</option>
-                  <option value="high">High Quality (CRF 23)</option>
+                  <option value="low">Small File (lower quality)</option>
+                  <option value="medium" selected>Balanced</option>
+                  <option value="high">Higher Quality (larger file)</option>
+                </select>
+                <label class="opt-label" style="margin:0;font-size:12px;" for="vResolution">Resolution:</label>
+                <select id="vResolution" class="opt-select" style="padding:4px 8px;font-size:13px;">
+                  <option value="720" selected>Up to 720p (faster)</option>
+                  <option value="original">Original (slower)</option>
                 </select>
               </div>
             ` : toolId === 'vid-crop' ? `
@@ -3987,7 +3992,7 @@ function renderVideoGenericTool(zone, toolId) {
         const end = parseFloat(document.getElementById('vEnd').value) || 10;
         res = await VideoTools.trimVideo(uploadedFile, start, end);
       } else if (toolId === 'vid-compress') {
-        res = await VideoTools.compressVideo(uploadedFile, document.getElementById('vQual').value);
+        res = await VideoTools.compressVideo(uploadedFile, document.getElementById('vQual').value, document.getElementById('vResolution').value, progress => { btnProcess.textContent = `Compressing… about ${Math.round(progress * 100)}%`; });
       } else if (toolId === 'vid-crop') {
         res = await VideoTools.cropVideo(uploadedFile, document.getElementById('vAspect').value);
       } else if (toolId === 'vid-resize') {

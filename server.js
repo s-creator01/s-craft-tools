@@ -161,7 +161,7 @@ async function handleMediaOperation(body) {
         outputExt = '.mp4';
         outputPath = path.join(tempDir, `compressed.mp4`);
         outputMime = 'video/mp4';
-        const crf = options.quality === 'low' ? '32' : options.quality === 'medium' ? '28' : '23';
+        const crf = options.quality === 'low' ? '38' : options.quality === 'medium' ? '33' : '28';
         const hasAudio = await probeHasAudio(inputPath);
         ffmpegArgs = [
           '-y',
@@ -172,6 +172,7 @@ async function handleMediaOperation(body) {
           '-crf', crf,
           '-preset', 'fast'
         ];
+        if (options.resolution === '720') ffmpegArgs.push('-vf', 'scale=trunc(iw*min(1\\,720/min(iw\\,ih))/2)*2:trunc(ih*min(1\\,720/min(iw\\,ih))/2)*2');
         if (hasAudio) ffmpegArgs.push('-c:a', 'aac', '-b:a', '128k');
         else ffmpegArgs.push('-an');
         ffmpegArgs.push(outputPath);
