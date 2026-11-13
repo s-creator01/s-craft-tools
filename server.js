@@ -69,7 +69,7 @@ const MIME_TYPES = {
 };
 
 // Execute FFmpeg command asynchronously with timeout
-function runFFmpeg(args, timeoutMs = 120000) {
+function runFFmpeg(args, timeoutMs = 300000) {
   return new Promise((resolve, reject) => {
     if (!FFMPEG_BIN) {
       return reject(new Error('Local FFmpeg binary not found on this system'));
@@ -162,6 +162,7 @@ async function handleMediaOperation(body) {
         outputPath = path.join(tempDir, `compressed.mp4`);
         outputMime = 'video/mp4';
         const crf = options.quality === 'low' ? '32' : options.quality === 'medium' ? '28' : '23';
+        const hasAudio = await probeHasAudio(inputPath);
         ffmpegArgs = [
           '-y',
           '-i', inputPath,
@@ -169,11 +170,11 @@ async function handleMediaOperation(body) {
           '-pix_fmt', 'yuv420p',
           '-movflags', '+faststart',
           '-crf', crf,
-          '-preset', 'fast',
-          '-c:a', 'aac',
-          '-b:a', '128k',
-          outputPath
+          '-preset', 'fast'
         ];
+        if (hasAudio) ffmpegArgs.push('-c:a', 'aac', '-b:a', '128k');
+        else ffmpegArgs.push('-an');
+        ffmpegArgs.push(outputPath);
         break;
       }
 
@@ -496,6 +497,9 @@ async function handleMediaOperation(body) {
     }
 
     // Run the operation locally
+    if (['compress-video', 'trim-video', 'crop-video', 'resize-video', 'speed-video', 'rotate-video'].includes(operation)) {
+      ffmpegArgs.splice(ffmpegArgs.length - 1, 0, '-fpsmax', '60');
+    }
     await runFFmpeg(ffmpegArgs);
 
     if (!fs.existsSync(outputPath)) {

@@ -71,7 +71,7 @@ export async function runMediaTests() {
   }
 
   function inspectMedia(filePath) {
-    const json = execSync(`ffprobe -v error -show_entries format=duration -show_entries stream=codec_type -of json "${filePath}"`, { encoding: 'utf8' });
+    const json = execSync(`ffprobe -v error -show_entries format=duration -show_entries stream=codec_type,avg_frame_rate,width,height -of json "${filePath}"`, { encoding: 'utf8' });
     return JSON.parse(json);
   }
 
@@ -160,6 +160,26 @@ export async function runMediaTests() {
     const duration = Number(info.format.duration);
     assert(duration > 0.7 && duration < 1.3, `Expected about 1 second after 2x speed, got ${duration}`);
     assert(!info.streams.some(stream => stream.codec_type === 'audio'), 'A silent input unexpectedly gained an audio stream');
+  });
+
+  await it('Media: Silent high-frame-rate portrait exports stay bounded across video tools', async () => {
+    const portraitPath = path.join(TMP_DIR, 'portrait-120fps.mp4');
+    execSync(`ffmpeg -y -f lavfi -i testsrc2=size=180x320:rate=120:duration=2 -c:v libx264 -pix_fmt yuv420p "${portraitPath}"`, { stdio: 'ignore' });
+    const input = fs.readFileSync(portraitPath).toString('base64');
+    const operations = [
+      ['compress-video', { quality: 'medium' }], ['trim-video', { start: 0, end: 1 }],
+      ['crop-video', { aspect: '1:1' }], ['resize-video', { width: 160, height: 200 }],
+      ['speed-video', { speed: 1.5 }], ['rotate-video', { angle: 90 }]
+    ];
+    for (const [operation, options] of operations) {
+      const info = inspectMedia(await saveProcessed(await processMedia(operation, input, 'portrait.mp4', options)));
+      const stream = info.streams.find(item => item.codec_type === 'video');
+      assert(stream, `${operation}: missing video`);
+      const [numerator, denominator] = stream.avg_frame_rate.split('/').map(Number);
+      assert(numerator / denominator <= 60.01, `${operation}: output exceeds 60 fps`);
+      assert(!info.streams.some(item => item.codec_type === 'audio'), `${operation}: silent input gained audio`);
+      if (operation === 'crop-video') assert.strictEqual(stream.width, stream.height);
+    }
   });
 
   await it('Media: Merge video clips in selected order', async () => {

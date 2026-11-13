@@ -52,7 +52,7 @@ function command(operation, options, input) {
 }
 
 async function execute(engine, args) {
-  if (await engine.exec(args, 180000) !== 0) {
+  if (await engine.exec(args, 300000) !== 0) {
     throw new Error('Could not process this media file. Check the format and settings, or try a shorter file.');
   }
 }
@@ -103,6 +103,9 @@ export async function processBrowserMedia(operation, files, options = {}) {
       [format, args] = command(operation, options, inputs[0]);
     }
     const output = `output.${format}`;
+    if (['compress-video', 'trim-video', 'crop-video', 'resize-video', 'speed-video', 'rotate-video'].includes(operation)) {
+      args.push('-fpsmax', '60');
+    }
     await execute(engine, [...args, output]);
     const data = await engine.readFile(output);
     if (!data.length) throw new Error('Export produced an empty file.');
