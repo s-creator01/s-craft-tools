@@ -3893,6 +3893,8 @@ function renderVideoGenericTool(zone, toolId) {
               <span style="color:var(--success);font-weight:700;">PROCESSED RESULT</span>
               <span id="vidResultMeta" style="font-size:13px;color:var(--muted);"></span>
             </div>
+            <p id="vidCompressionMessage" role="status" style="display:none;color:#fff;margin:0 0 10px;line-height:1.5;"></p>
+            <button type="button" class="btn-secondary" id="btnDownloadOriginalVid" style="display:none;margin-bottom:10px;">Download original</button>
             <video id="vidPlayer" controls style="width:100%;max-height:400px;border-radius:8px;background:#000;"></video>
           </div>
         </div>
@@ -3909,6 +3911,8 @@ function renderVideoGenericTool(zone, toolId) {
   const btnProcess = document.getElementById('btnProcessVid');
   const btnDownload = document.getElementById('btnDownloadVid');
   const previewStage = document.getElementById('vidPreviewStage');
+  const originalDownload = document.getElementById('btnDownloadOriginalVid');
+  originalDownload.addEventListener('click', () => { if (uploadedFile) downloadBlob(uploadedFile, uploadedFile.name); });
 
   btnChangeVid.addEventListener('click', () => {
     vidUploadArea.style.display = 'block';
@@ -3916,6 +3920,8 @@ function renderVideoGenericTool(zone, toolId) {
     uploadedFile = null;
     uploadedFiles = [];
     videoPreviewController = null;
+    state.processedResult = null;
+    originalDownload.style.display = 'none';
     btnProcess.disabled = true;
     btnDownload.disabled = true;
     previewStage.innerHTML = '';
@@ -3927,6 +3933,8 @@ function renderVideoGenericTool(zone, toolId) {
     if (!file) return;
     uploadedFiles = files;
     uploadedFile = file;
+    state.processedResult = null;
+    originalDownload.style.display = 'none';
     const totalSize = files.reduce((sum, item) => sum + item.size, 0);
     document.getElementById('fileInfoVid').innerHTML = `<strong>${toolId === 'vid-merge' ? `${files.length} video files` : escapeHtml(file.name)}</strong> <span class="file-size">${formatBytes(totalSize)}</span>`;
     document.getElementById('vidMeta').textContent = toolId === 'vid-merge' ? `${files.length} clips · join in selected order` : file.name;
@@ -4006,9 +4014,19 @@ function renderVideoGenericTool(zone, toolId) {
       }
       document.getElementById('vidResultBox').style.display = 'block';
       document.getElementById('vidResultMeta').textContent = `Output: ${formatBytes(res.size)}`;
+      const compressionMessage = document.getElementById('vidCompressionMessage');
+      compressionMessage.style.display = toolId === 'vid-compress' ? 'block' : 'none';
+      if (toolId === 'vid-compress') {
+        const change = ((res.size - uploadedFile.size) / uploadedFile.size) * 100;
+        const comparison = `${formatBytes(uploadedFile.size)} → ${formatBytes(res.size)}`;
+        compressionMessage.textContent = change >= 0
+          ? `${comparison} · ${change.toFixed(1)}% larger. This video was not reduced. Try Small File or keep the original.`
+          : `${comparison} · ${Math.abs(change).toFixed(1)}% smaller.`;
+        originalDownload.style.display = change >= 0 ? 'inline-flex' : 'none';
+      }
 
       logActivity(toolId, uploadedFile.name, { size: res.size });
-      showToast(`Processed! Output size: ${formatBytes(res.size)}`);
+      showToast(toolId === 'vid-compress' && res.size >= uploadedFile.size ? 'Output is not smaller. You can keep the original.' : `Processed! Output size: ${formatBytes(res.size)}`);
       return res;
     } catch (e) {
       showToast('Video processing failed: ' + e.message);

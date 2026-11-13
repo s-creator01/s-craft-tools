@@ -18,7 +18,7 @@ function command(operation, options, input) {
   const trim = ['-ss', String(options.start), ...source, '-t', String(options.end - options.start)];
   switch (operation) {
     case 'trim-video': return ['mp4', [...trim, ...video, '-c:a', 'aac']];
-    case 'compress-video': return ['mp4', [...source, ...video, '-crf', ({ low: '32', medium: '28', high: '23' })[options.quality] ?? '28', '-c:a', 'aac']];
+    case 'compress-video': return ['mp4', [...source, '-c:v', 'libx264', '-preset', 'veryfast', '-pix_fmt', 'yuv420p', '-crf', ({ low: '32', medium: '28', high: '23' })[options.quality] ?? '28', '-c:a', 'aac']];
     case 'crop-video': {
       const ratio = ({ '1:1': '1', '16:9': '16/9', '4:3': '4/3', '9:16': '9/16' })[options.aspect] ?? '1';
       return ['mp4', movie(`crop=trunc(min(iw,ih*(${ratio}))/2)*2:trunc(min(ih,iw/(${ratio}))/2)*2`.replaceAll(',', '\\,'))];
